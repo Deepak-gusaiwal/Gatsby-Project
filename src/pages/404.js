@@ -8,7 +8,7 @@ const ErrorPage = () => {
    <Wrapper>
     <Container>
     <HeadingMedium>404 NOT FOUND</HeadingMedium>
-    <Button large as={Link}>Go Back</Button>
+    <Button to="/" large as={Link}>Go Back</Button>
     </Container>
    </Wrapper>
   )
