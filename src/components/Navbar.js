@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { Link } from "gatsby";
 import { Button } from "../styles/GlobalStyledComponents";
@@ -12,13 +12,18 @@ const Navbar = () => {
   };
 
   const [activeNav, setActiveNav] = useState(false)
-  window.addEventListener("scroll", () => {
-    if (window.scrollY >= 80) {
-      setActiveNav(true)
-    } else {
-      setActiveNav(false)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener("scroll", () => {
+        if (window.scrollY >= 80) {
+          setActiveNav(true);
+        } else {
+          setActiveNav(false);
+        }
+      });
     }
-  })
+  }, []);
+
 
   return (
     <Nav activeNav={activeNav}>
