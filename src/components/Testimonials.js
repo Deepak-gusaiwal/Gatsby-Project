@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+
 import {
   HeadingMedium,
   HeadingSmall,
@@ -24,6 +26,24 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 const Testimonials = () => {
+  const [testimonialsData,setTestimonialsData]=useState([])
+
+const getTestimonialsData = async()=>{
+ try {
+	 const url = "https://admin.tomedes.com/api/v1/get-reviews?page=1";
+	  const response = await axios.get(url)
+	  const {data} = response.data;
+	 setTestimonialsData(data);
+} catch (error) {
+	console.log('some error occured',error)
+}
+}
+
+console.log(testimonialsData)
+useEffect(()=>{
+  getTestimonialsData()
+},[])
+
   return (
     <Wrapper>
       <HeadingMedium>What Our Customers Says</HeadingMedium>
@@ -43,46 +63,33 @@ const Testimonials = () => {
           modules={[Pagination, Autoplay]}
           className="mySwiper"
         >
-          <SwiperSlide style={{display:'flex',justifyContent:"center",padding:"2rem",width:'100%'}}>
-              <TestimonialCard>
-                <ExtendedParagraph small>
-                  I Want To thank To everyone at this facility for the quality
-                  of care and compassion they shows during my stay.
-                </ExtendedParagraph>
-                <Details>
-                  <ImageBox>
-                    <Image src={img1} />
-                  </ImageBox>
-                  <div>
-                    <HeadingSmall>Jacqueline Astrong</HeadingSmall>
-                    <Paragraph small>Patient</Paragraph>
-                  </div>
-                </Details>
-                <ColonIcon>
-                  <FaQuoteLeft />
-                </ColonIcon>
-              </TestimonialCard>
-          </SwiperSlide>
-          <SwiperSlide style={{display:'flex',justifyContent:"center",padding:"2rem"}}>
-              <TestimonialCard>
-                <ExtendedParagraph small>
-                  I Want To thank To everyone at this facility for the quality
-                  of care and compassion they shows during my stay.
-                </ExtendedParagraph>
-                <Details>
-                  <ImageBox>
-                    <Image src={img1} />
-                  </ImageBox>
-                  <div>
-                    <HeadingSmall>Jacqueline Astrong</HeadingSmall>
-                    <Paragraph small>Patient</Paragraph>
-                  </div>
-                </Details>
-                <ColonIcon>
-                  <FaQuoteLeft />
-                </ColonIcon>
-              </TestimonialCard>
-          </SwiperSlide>
+        {
+          testimonialsData.length !==0 ?
+          testimonialsData.map((element)=>{
+            return <SwiperSlide key={Math.random()} style={{display:'flex',justifyContent:"center",padding:"2rem",width:'100%'}}>
+            <TestimonialCard>
+              <ExtendedParagraph small>
+                {element.Reviews}
+              </ExtendedParagraph>
+              <Details>
+                <ImageBox>
+                  <Image src={img1} />
+                </ImageBox>
+                <div>
+                  <HeadingSmall>{element.Name}</HeadingSmall>
+                  <Paragraph small>{element.Company}</Paragraph>
+                </div>
+              </Details>
+              <ColonIcon>
+                <FaQuoteLeft />
+              </ColonIcon>
+            </TestimonialCard>
+        </SwiperSlide>
+          })
+      :
+      <span></span>
+        }
+         
          
         </Swiper>
       </TestimonialsContainer>

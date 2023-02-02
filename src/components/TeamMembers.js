@@ -52,7 +52,7 @@ const TeamMembers = () => {
       <CardsContainer>
         {TeamMembersData.map((element) => {
           return (
-            <Card>
+            <Card key={Math.random()}>
               <ImageBox>
                 <Image src={element.image} contain />
               </ImageBox>
