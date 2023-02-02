@@ -50,7 +50,7 @@ const About = () => {
       </Wrapper>
 
       {/* Team Members started */}
-      <TeamMembers />
+      {/* <TeamMembers /> */}
       {/* Team Members ended */}
      
     </>
